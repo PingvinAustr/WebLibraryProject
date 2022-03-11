@@ -1,0 +1,16 @@
+﻿body {
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+
+.search_header{
+    height:25%;
+    background-color:gray;
+}
+
+.results_body{
+    height:75%;
+    background-color:paleturquoise;
+}

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<CoreLibraryProj.Book>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = null;
+}
+
+
+<head>
+    
+    <title>Бібліотека</title>
+    <link rel="stylesheet" type="text/css" href="/css/BookList.css">
+</head>
+
+<p>
+    <a style="display:none;" asp-action="Create">Create New</a>
+</p>
+
+
+
+<div class="search_header">
+    <form method="post" asp-controller="Books" asp-action="Index">
+    <label>Поле пошуку</label>
+    <input type="text" placeholder="1" name="parameter1" autocomplete="off" />
+    <input type="submit" value="send"/>
+ </form>
+
+
+ <div style="border:1px solid red; width:200px;">
+     <label>Вибір рубрики</label>
+ 
+        @{
+            CoreLibraryContext db = new CoreLibraryContext();
+        }
+
+<form method="post" asp-controller="Books" asp-action="ApplyFilters" > 
+    
+
+<select  name="droppar">
+    <option value="" selected disabled hidden>Обрати категорію</option>
+            @{
+                int counter = 1;
+             
+
+    foreach (Rubric item in ViewBag.RubricsList)
+            {
+                        <option value=@counter>@item.RubricName</option>
+
+                        counter++;
+            }
+           
+            }
+
+ </select>
+
+ <input type="submit" value="apply filters"/>
+ </form>
+  </div>
+ </div>
+
+ @ViewBag.droppar
+<div class="results_body"> 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookAuthor)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.BookRubric)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+       
+@foreach (var item in Model) {
+        <tr>
+            <td style="width:10%;">
+                @Html.DisplayFor(modelItem => item.BookName)
+            </td>
+            <td style="width:60%;">
+                @Html.DisplayFor(modelItem => item.BookDescription)
+            </td> 
+            <td style="width:10%;">  
+                @Html.DisplayFor(modelItem => item.BookAuthor.AuthorName)
+            </td>
+            
+            <td style="width:10%;">
+                @Html.DisplayFor(modelItem => item.BookRubric.RubricName)
+            </td>
+            <td style="display:none">
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
