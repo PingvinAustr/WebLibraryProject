@@ -1,7 +1,7 @@
 ﻿body {
     margin:0;
     padding:0;
-    overflow:hidden;
+      overflow-y:scroll;
 }
 
 
@@ -11,6 +11,7 @@
 }
 
 .results_body{
-    height:75%;
+    height:auto;
+    min-height:75%;
     background-color:paleturquoise;
 }
