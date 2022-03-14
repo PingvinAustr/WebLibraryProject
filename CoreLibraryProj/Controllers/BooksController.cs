@@ -23,6 +23,7 @@ namespace CoreLibraryProj.Controllers
         {
             ViewBag.RubricsDropDown= new SelectList(db.Rubrics.ToList(), "Id", "RubricName");
             ViewBag.RubricsList=db.Rubrics.ToList();
+            ViewBag.AuthorList=db.Authors.ToList();
             ViewData["Books"] = db.Books.ToList();
         }
 
@@ -30,21 +31,67 @@ namespace CoreLibraryProj.Controllers
 
         CoreLibraryContext db = new CoreLibraryContext();
         [HttpPost]
-        public ActionResult Index(string parameter1)
+        public ActionResult Index(string parameter1,string droppar_rubrics,string droppar_authors)
         {
+            //Initialize needed variables to avoid errors after POST request
             InitializeViewBag();
-            var books = db.Books.Where(a => a.BookName.Contains(parameter1)).ToList();
-            var coreLibraryContext1=_context.Books.Include(b=>b.BookAuthor).Include(b=>b.BookRubric).Where(b=>b.BookName.Contains(parameter1)).ToList();
-            books = coreLibraryContext1.ToList();
 
-            if (parameter1 ==null) && ()
+
+           
+
+            //Saving previously chosen items & text from the search form
+            ViewBag.SaveValSearch = parameter1;
+            ViewBag.SaveValRub = droppar_rubrics;
+            ViewBag.SaveValAuth = droppar_authors;
+
+            //Checking different options after form submitting
+
+            //1... If dropdowns were not used
+           
+            var books = db.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(a => a.BookName.Contains(parameter1)).ToList();
+
+
+            //2... If all fields are empty - show all results
+            if ((parameter1 == null) && (droppar_rubrics == null) && (droppar_authors == null))
             {
-               
-                var coreLibraryContext = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric); 
+                var coreLibraryContext = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric);
                 books = coreLibraryContext.ToList();
                 return View(books);
             }
-           
+
+            //3... All combinations of empty/filled search bar & 2 dropdowns (to avoid null exception)
+            if (parameter1 != null)
+            {
+                if ((droppar_authors != null) && (droppar_rubrics != null))
+                {
+                    books=_context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(b => b.BookName.Contains(parameter1)).ToList().Where(b => b.BookRubricId == int.Parse(droppar_rubrics)).ToList().Where(b=>b.BookAuthorId==int.Parse(droppar_authors)).ToList();                 
+                }
+                else if ((droppar_authors != null) && (droppar_rubrics == null))
+                {
+                    books = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(b => b.BookName.Contains(parameter1)).ToList().Where(b => b.BookAuthorId == int.Parse(droppar_authors)).ToList();
+                }
+                else if ((droppar_authors == null) && (droppar_rubrics != null))
+                {
+                    books = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(b => b.BookName.Contains(parameter1)).ToList().Where(b => b.BookRubricId == int.Parse(droppar_rubrics)).ToList();
+                }
+            }
+            else if (parameter1 == null)
+            {
+                if ((droppar_authors != null) && (droppar_rubrics != null))
+                {
+                    books = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).ToList().Where(b => b.BookRubricId == int.Parse(droppar_rubrics)).ToList().Where(b => b.BookAuthorId == int.Parse(droppar_authors)).ToList();
+                }
+                else if ((droppar_authors != null) && (droppar_rubrics == null))
+                {
+                    books = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).ToList().Where(b => b.BookAuthorId == int.Parse(droppar_authors)).ToList();
+                }
+                else if ((droppar_authors == null) && (droppar_rubrics != null))
+                {
+                    books = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).ToList().Where(b => b.BookRubricId == int.Parse(droppar_rubrics)).ToList();
+                }
+            }
+
+          
             return View("~/Views/Books/Index.cshtml",books);
            
 
@@ -61,6 +108,7 @@ namespace CoreLibraryProj.Controllers
 
 
 
+        /*
        [HttpPost]
         public ActionResult ApplyFilters(string droppar_rubrics)
         {
@@ -69,7 +117,7 @@ namespace CoreLibraryProj.Controllers
             if (droppar_rubrics == null) return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric));
             return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(b=>b.BookRubricId==int.Parse(droppar_rubrics)));
         }
-
+        */
 
 
 

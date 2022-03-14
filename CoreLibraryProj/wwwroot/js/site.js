@@ -1,4 +1,7 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+function RestoreFilters() {
+    document.getElementById("parameter1").value = "";
+    document.getElementById("droppar_rubrics").value = "";
+    document.getElementById("droppar_authors").value = "";
 
-// Write your JavaScript code.
+}
