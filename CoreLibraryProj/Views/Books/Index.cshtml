@@ -37,11 +37,11 @@
                     foreach (Rubric item in ViewBag.RubricsList)
                     {
 
-                        if (ViewBag.SaveValRub==counter.ToString())
+                        if (ViewBag.SaveValRub==item.Id.ToString())
                         {
-                            @Html.Raw("<option selected value="+@counter+">"+@item.RubricName+"</option>");
+                            @Html.Raw("<option selected value="+@item.Id+">"+@item.RubricName+"</option>");
                         }
-                        else @Html.Raw("<option value="+@counter+">"+@item.RubricName+"</option>");                      
+                        else @Html.Raw("<option value="+@item.Id+">"+@item.RubricName+"</option>");                      
             counter++;}}
 </select>
 
@@ -51,11 +51,11 @@
                         int counter_auth = 1;
                         foreach (Author item in ViewBag.AuthorList)
                         {
-                            if (ViewBag.SaveValAuth == counter_auth.ToString())
+                            if (ViewBag.SaveValAuth == item.Id.ToString())
                             {
-                                @Html.Raw("<option selected value="+@counter_auth+">"+@item.AuthorName+"</option>");
+                                @Html.Raw("<option selected value="+@item.Id+">"+@item.AuthorName+"</option>");
                             }
-                            else @Html.Raw("<option value="+@counter_auth+">"+@item.AuthorName+"</option>");
+                            else @Html.Raw("<option value="+@item.Id+">"+@item.AuthorName+"</option>");
                             
                             counter_auth++;
                         }
@@ -111,10 +111,10 @@
             <td style="width:10%;">
                 @Html.DisplayFor(modelItem => item.BookRubric.RubricName)
             </td>
-            <td style="display:none">
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <td>
+                <a style="display:none" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a style="display:none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
