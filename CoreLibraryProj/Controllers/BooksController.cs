@@ -37,7 +37,7 @@ namespace CoreLibraryProj.Controllers
             var coreLibraryContext1=_context.Books.Include(b=>b.BookAuthor).Include(b=>b.BookRubric).Where(b=>b.BookName.Contains(parameter1)).ToList();
             books = coreLibraryContext1.ToList();
 
-            if (parameter1 ==null)
+            if (parameter1 ==null) && ()
             {
                
                 var coreLibraryContext = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric); 
@@ -62,11 +62,12 @@ namespace CoreLibraryProj.Controllers
 
 
        [HttpPost]
-        public ActionResult ApplyFilters(string droppar)
+        public ActionResult ApplyFilters(string droppar_rubrics)
         {
-            ViewBag.droppar = droppar;   
+            ViewBag.droppar_rubrics = droppar_rubrics;   
             InitializeViewBag();
-            return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric));
+            if (droppar_rubrics == null) return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric));
+            return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(b=>b.BookRubricId==int.Parse(droppar_rubrics)));
         }
 
 

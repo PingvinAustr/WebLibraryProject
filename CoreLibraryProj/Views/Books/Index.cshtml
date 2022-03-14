@@ -36,7 +36,7 @@
 <form method="post" asp-controller="Books" asp-action="ApplyFilters" > 
     
 
-<select  name="droppar">
+<select  name="droppar_rubrics">
     <option value="" selected disabled hidden>Обрати категорію</option>
             @{
                 int counter = 1;
@@ -58,7 +58,7 @@
   </div>
  </div>
 
- @ViewBag.droppar
+ @ViewBag.droppar_rubrics
 <div class="results_body"> 
 <table class="table">
     <thead>
