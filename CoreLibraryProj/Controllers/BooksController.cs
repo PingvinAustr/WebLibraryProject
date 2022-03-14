@@ -106,21 +106,6 @@ namespace CoreLibraryProj.Controllers
             return View(await coreLibraryContext.ToListAsync());
         }
 
-
-
-        /*
-       [HttpPost]
-        public ActionResult ApplyFilters(string droppar_rubrics)
-        {
-            ViewBag.droppar_rubrics = droppar_rubrics;   
-            InitializeViewBag();
-            if (droppar_rubrics == null) return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric));
-            return View("~/Views/Books/Index.cshtml", _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric).Where(b=>b.BookRubricId==int.Parse(droppar_rubrics)));
-        }
-        */
-
-
-
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
