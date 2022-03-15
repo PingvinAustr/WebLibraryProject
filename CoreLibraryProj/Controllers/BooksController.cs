@@ -117,6 +117,7 @@ namespace CoreLibraryProj.Controllers
             var book = await _context.Books
                 .Include(b => b.BookAuthor)
                 .Include(b => b.BookRubric)
+                .Include(b=>b.DocumentFullTexts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
