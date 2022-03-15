@@ -1,9 +1,28 @@
 ﻿@model CoreLibraryProj.Book
 
 @{
+    Layout = null;
     ViewData["Title"] = "Details";
+
+    //Get ID of current book that is opened in browser tab
+    int bookid = Model.Id;
+
+    CoreLibraryContext db = new CoreLibraryContext();
+
+    //Create current_doc object to output book text in all languages, also create a list which will containt all languages versions
+    DocumentFullText current_doc = new DocumentFullText();
+    List<DocumentFullText> current_doc_langs = new List<DocumentFullText>();
+    foreach (DocumentFullText item in db.DocumentFullTexts.ToList())
+
+        if (item.DocumentId == bookid) { current_doc_langs.Add(item); current_doc = item; }
+
 }
 
+<head>
+     <link rel="stylesheet" type="text/css" href="/css/BookDetailsList.css">
+</head>
+
+<body> 
 <h1>Details</h1>
 
 <div>
@@ -26,17 +45,53 @@
             @Html.DisplayNameFor(model => model.BookAuthor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookAuthor.Id)
+            @Html.DisplayFor(model => model.BookAuthor.AuthorName)
         </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.BookRubric)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookRubric.Id)
+            @Html.DisplayFor(model => model.BookRubric.RubricName)
+        </dd>
+
+        <dt class = "col-sm-2">          
+            Текст твору:
+        </dt>
+        <dd class = "col-sm-10">            
+            @{int i=0;}
+            @foreach(var item in current_doc_langs)
+            {
+                //Displaying & pre-loading texts in all languages and hide them. Creating classes and IDs for all divs to make them visible/hidden by user language choice
+                current_doc = current_doc_langs[i];
+                i++;
+                string class_name_lang = "lan" + current_doc.LanguageId;
+                <div class="@class_name_lang" id="@class_name_lang" style="display:none;">@current_doc.FullDocumentText</div>
+            }
+
+            
+            @{  //Creating a dropdown menu for user to choose language on front-end
+                List<Language> languages_for_dropdown = new List<Language>();}
+
+           <select name="language_front_dropdown" id="language_front_dropdown" onchange="ChangeBookLanguage()">
+            <option value="" selected hidden disabled>Оберіть мову твору</option>
+                    
+                @foreach (var item in current_doc_langs)
+                    {
+                      foreach (var item1 in db.Languages.ToList())
+                          if (item1.Id == item.LanguageId) {
+                                languages_for_dropdown.Add(item1);
+                                <option value="@item.LanguageId">@item1.LanguageName</option>
+                         }
+                    }
+          </select>
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Edit" style="display:none" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script src="/js/site.js"></script>
+</body>
