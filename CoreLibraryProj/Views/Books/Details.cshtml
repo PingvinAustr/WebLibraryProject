@@ -28,6 +28,22 @@
 <div>
     <h4>Book</h4>
     <hr />
+
+     @{
+      //Checking whether current book has an avatar. If false - show default image placeholder
+      string image_address_html = "/lib/img/" + Model.Id + ".png";
+      string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+Model.Id+".png";
+      var exist = File.Exists(image_address_tocheckexists);
+      if (!exist) image_address_html = "/lib/img/notfound.png";
+     }
+     @Html.Raw("<img class='book_image' src="+image_address_html+">")
+
+
+
+
+
+
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.BookName)
