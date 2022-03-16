@@ -116,6 +116,17 @@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a style="display:none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+            <td>
+           
+                            @{
+                                //Checking whether current book has an avatar. If false - show default image placeholder
+                                string image_address_html = "/lib/img/" + item.Id + ".png";
+                                string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+item.Id+".png";
+                                var exist = File.Exists(image_address_tocheckexists);
+                                if (!exist) image_address_html = "/lib/img/notfound.png";
+                            }
+                            @Html.Raw("<img class='book_image' src="+image_address_html+">")
+            </td>
         </tr>
 }
     </tbody>
