@@ -8,8 +8,12 @@
 
 <head>
     
-    <title>Бібліотека</title>
-    <link rel="stylesheet" type="text/css" href="/css/BookList.css">
+<title>Бібліотека</title>
+<link rel="stylesheet" type="text/css" href="/css/BookList.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
 
@@ -21,16 +25,29 @@
 
 <div class="search_header">
 
- <!--SEARCH FROM. Contains filters (text input & dropdown lists) -->
+
+    <div class="search_header_item" >burger</div>
+
+
+    <div class="search_header_item"> 
+        <img class="logo_group" src="/lib/layout-img/logo_group.png" />
+    
+    <div> 
+    <!--SEARCH FROM. Contains filters (text input & dropdown lists) -->
     <form method="post" asp-controller="Books" asp-action="Index" style="display:flex;flex-direction:column; width:25%;">
     
-    <!--Search text input-->
-    <label>Поле пошуку</label>
-    <input type="text" placeholder="Введіть назву" name="parameter1" autocomplete="off" value=@ViewBag.SaveValSearch id="parameter1" />
+    <div class="submit-input-group"> 
+        <!--Search text input-->
+        <input type="text" class="search_bar" placeholder="Введіть назву твору" name="parameter1" autocomplete="off" value=@ViewBag.SaveValSearch id="parameter1" />
+        <input type="submit" id="submit_button" class="submit_button" value=""/>
+        <!--Restore filters button-->     
+        <img id="restore_filter" src="/lib/layout-img/circular-arrow.svg" onclick="RestoreFilters()" />    
+    </div>
 
     <div class="dropdown_group">
      <!--DROPDOWN List for Rubrics. Saves chosen item after POST request-->
-    <select  name="droppar_rubrics" id="droppar_rubrics">
+    <div class="arrow_for_select"> 
+    <select class="select-css" name="droppar_rubrics" id="droppar_rubrics">
         <option value="" selected disabled hidden>Обрати категорію</option>
                 @{
                     int counter = 1;            
@@ -44,9 +61,11 @@
                         else @Html.Raw("<option value="+@item.Id+">"+@item.RubricName+"</option>");                      
             counter++;}}
 </select>
+</div>
 
-<select name="droppar_authors" id="droppar_authors">
-<option value="" selected disabled hidden>Обрати автора</option>
+<div class="arrow_for_select"> 
+    <select name="droppar_authors" id="droppar_authors" class="select-css">
+        <option value="" selected disabled hidden>Обрати автора</option>
                     @{
                         int counter_auth = 1;
                         foreach (Author item in ViewBag.AuthorList)
@@ -61,76 +80,81 @@
                         }
                     }
 </select>
-
-
+</div>
  </div>
-<input type="submit" value="Застосувати фільтри"/>
  </form>
+ </div>
+ </div>
 
+ @{/*Toggle element to choose day/night display theme*/}
+ <div class="search_header_item">
+    <div class="toggle_theme">
+        <img id="moon" src="/lib/layout-img/inactive_moon.svg" />
+        <div class="toggle_body" id="toggle_body">
+            <div class="toggle_ball" id="toggle_ball" onclick="ToggleTheme()"></div>
+        </div>
+        <img id="sun" src="/lib/layout-img/active_sun.svg" />
+    </div>
 
- <input type="button" value="Скинути фільтри" onclick="RestoreFilters()"/>
-
+ </div>
  </div>
 
 
 
+ @{/*Main page body with search results*/}
 <div class="results_body"> 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BookName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookAuthor)
-            </th>
+<div class="results_body_header">Лист доступної літератури. </div>
+
+
+@{/*If there is nothing found according to user request - showing 404 message*/
+    if (Model.Count()==0)
+                {
+                    @Html.Raw("<div class='error404' style='margin-top:80px;'>На жаль, за вашим запитом творів знайдено не було. </div>");
+                    @Html.Raw("<div class='error404'>Спробуйте ще раз</div>");
+                    @Html.Raw("<div class='error404' >404 :(</div>");
+                }}
+
+
+<div class="book_list_body"> 
+            @{              
+                foreach (var item in Model)
+            {
+             <div class="book_list_single_item">
+             <div> 
+             
+                     @{/*Checking whether current book has an avatar. If false - show default image placeholder*/}
+                     @{string image_address_html = "/lib/img/" + item.Id + ".png";
+                     string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+item.Id+".png";
+                     var exist = File.Exists(image_address_tocheckexists);
+                     if (!exist) image_address_html = "/lib/img/notfound.png";}                            
+                     @Html.Raw("<img class='book_image' src="+@image_address_html+">")
+             </div>
+
+
+
+            <div class="single_item_desc"> 
+            <h1 style="margin:0; height:10%;"> @Html.DisplayFor(modelItem => item.BookName)</h1> 
+            <h2 style="margin:0; height:15%; padding:5px 0 0 0"> @Html.DisplayFor(modelItem => item.BookAuthor.AuthorName) |   @Html.DisplayFor(modelItem => item.BookRubric.RubricName) </h2>
+            <div style="margin:0; height:65%;" class="book_desc"> @Html.DisplayFor(modelItem => item.BookDescription) </div>
            
-            <th>
-                @Html.DisplayNameFor(model => model.BookRubric)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-       
-@foreach (var item in Model) {
-        <tr>
-            <td style="width:10%;">
-                @Html.DisplayFor(modelItem => item.BookName)
-            </td>
-            <td style="width:60%;">
-                @Html.DisplayFor(modelItem => item.BookDescription)
-            </td> 
-            <td style="width:10%;">  
-                @Html.DisplayFor(modelItem => item.BookAuthor.AuthorName)
-            </td>
-            
-            <td style="width:10%;">
-                @Html.DisplayFor(modelItem => item.BookRubric.RubricName)
-            </td>
-            <td>
-                <a style="display:none" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a style="display:none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-            <td>
-           
-                            @{
-                                //Checking whether current book has an avatar. If false - show default image placeholder
-                                string image_address_html = "/lib/img/" + item.Id + ".png";
-                                string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+item.Id+".png";
-                                var exist = File.Exists(image_address_tocheckexists);
-                                if (!exist) image_address_html = "/lib/img/notfound.png";
-                            }
-                            @Html.Raw("<img class='book_image' src="+image_address_html+">")
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+             
+              <a style="display:none" asp-action="Edit" asp-route-id="@item.Id">Edit</a>               
+              <div style="height:10%; display:flex; align-items:flex-end; justify-content:flex-end;">
+              <a class="details_button" asp-action="Details" asp-route-id="@item.Id">Детальніше</a> 
+              </div>             
+              <a style="display:none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+              </div>
+              </div>
+        }
+        }
+</div>
+
+
+
+
+
+
+
 </div>
 <script src="/js/site.js"></script>
  </body>
