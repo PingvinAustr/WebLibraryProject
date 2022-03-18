@@ -19,95 +19,57 @@
 }
 
 <head>
-     <link rel="stylesheet" type="text/css" href="/css/BookDetailsList.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+     <link rel="stylesheet" type="text/css" href="/css/BookDetailsList.css"> 
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
 <body> 
-<h1>Details</h1>
 
-<div>
-    <h4>Book</h4>
-    <hr />
+    <div class="container">
+        <img class="img-responsive" src='/lib/layout-img/logo_group.png' />
+    </div>
 
-     @{
-      //Checking whether current book has an avatar. If false - show default image placeholder
-      string image_address_html = "/lib/img/" + Model.Id + ".png";
-      string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+Model.Id+".png";
-      var exist = File.Exists(image_address_tocheckexists);
-      if (!exist) image_address_html = "/lib/img/notfound.png";
-     }
-     @Html.Raw("<img class='book_image' src="+image_address_html+">")
+    <div class="container">
+        <h4>Детальна інформація щодо обраного твору:</h4>
+        <hr />
+         <div class="row" style="">
+            <div class="col-sm-3">
+            @{
+              //Checking whether current book has an avatar. If false - show default image placeholder
+              string image_address_html = "/lib/img/" + Model.Id + ".png";
+              string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+Model.Id+".png";
+              var exist = File.Exists(image_address_tocheckexists);
+              if (!exist) image_address_html = "/lib/img/notfound.png";
+             }
+             @Html.Raw("<img class='book_image' src="+image_address_html+">")
+            </div>
+
+              <div class="col-sm-9">
+                  <div class="row" ><h1> @Html.DisplayFor(model => model.BookName)</h1></div>
+                  <div class="row" ><h4> @Html.DisplayFor(model => model.BookAuthor.AuthorName) |  @Html.DisplayFor(model => model.BookRubric.RubricName)</h4></div>
+                  <div class="row book_desc">
+                      <h6 style="font-weight:400;">
+                        @Html.DisplayFor(model => model.BookDescription)
+                      </h6>
+                  </div>
+              </div>
+     
+             </div>
 
 
 
-
-
-
-
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookDescription)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookDescription)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookAuthor)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookAuthor.AuthorName)
-        </dd>
-
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookRubric)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BookRubric.RubricName)
-        </dd>
-
-        <dt class = "col-sm-2">          
-            Текст твору:
-        </dt>
-        <dd class = "col-sm-10">            
-            @{int i=0;}
-            @foreach(var item in current_doc_langs)
-            {
-                //Displaying & pre-loading texts in all languages and hide them. Creating classes and IDs for all divs to make them visible/hidden by user language choice
-                current_doc = current_doc_langs[i];
-                i++;
-                string class_name_lang = "lan" + current_doc.LanguageId;
-                <div class="@class_name_lang" id="@class_name_lang" style="display:none;">@current_doc.FullDocumentText</div>
-            }
-
-            
-            @{  //Creating a dropdown menu for user to choose language on front-end
-                List<Language> languages_for_dropdown = new List<Language>();}
-
-           <select name="language_front_dropdown" id="language_front_dropdown" onchange="ChangeBookLanguage()">
-            <option value="" selected hidden disabled>Оберіть мову твору</option>
-                    
-                @foreach (var item in current_doc_langs)
-                    {
-                      foreach (var item1 in db.Languages.ToList())
-                          if (item1.Id == item.LanguageId) {
-                                languages_for_dropdown.Add(item1);
-                                <option value="@item.LanguageId">@item1.LanguageName</option>
-                         }
-                    }
-          </select>
-        </dd>
-    </dl>
-</div>
+    
+    </div>
 <div>
     <a asp-action="Edit" style="display:none" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/site.js"></script>
 </body>
