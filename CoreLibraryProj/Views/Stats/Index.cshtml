@@ -1,0 +1,86 @@
+﻿@{
+   
+}
+
+<html> 
+    <head>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+
+    <body>
+    @section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    google.charts.load('current', { 'packages': ['corechart','geochart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            $.get('/api/Chart/JsonData', function(JsonData) {
+                data = google.visualization.arrayToDataTable(JsonData, false);
+                var option = {
+                    title: "Співвідношення рубрик та кількості їх книг",
+                    width:600,
+                    height:400,
+                    pieHole:0.4
+                };
+                chart = new google.visualization.PieChart(document.getElementById('PieRubricChart'));
+                chart.draw(data, option);
+            })
+
+           $.get('/api/Chart/JsonData2', function(JsonData2) {
+           data = google.visualization.arrayToDataTable(JsonData2, false);
+            var option = {
+                    title: "Співвідношення  авторів та кількості їх творів",
+                    width:600,
+                    height:400,
+                    pieHole:0.4
+                };
+                chart = new google.visualization.PieChart(document.getElementById('PieAuthorChart'));
+                chart.draw(data, option);
+
+           })
+
+
+           $.get('/api/Chart/JsonData3', function(JsonData3) {
+           data = google.visualization.arrayToDataTable(JsonData3, false);
+            var option = {
+                    title: "Map",
+                    width:600,
+                    height:400,
+                   
+                };
+                var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+                chart.draw(data, option);
+
+           })
+
+
+        }
+    </script>
+    }
+    <div class="container">
+         <div style="display:flex; flex-direction:row;">
+            <a href="@Url.Action("Index","Books")">  <img src="lib/layout-img/logo_group.png"/></a>
+             <h2 style="margin:15px 0 0 25%; font-family:'Roboto Slab'; font-weight:300; font-size:36px"> Статистика бібліотеки</h2>
+         </div> 
+         <hr/>
+         <div class="PieChartRow" style="display:flex; flex-direction:row; justify-content:center; align-items:center;"> 
+    <div id="PieRubricChart">Pie chart</div>
+    <div id="PieAuthorChart">Pie chart 2</div>
+    </div>
+   </div>
+    <div id="regions_div">Pie chart 2</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
+
