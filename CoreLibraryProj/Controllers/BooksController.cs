@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreLibraryProj;
+using Microsoft.EntityFrameworkCore;
+using CoreLibraryProj.Models;
+
+
+
+
 
 namespace CoreLibraryProj.Controllers
 {
@@ -17,6 +23,8 @@ namespace CoreLibraryProj.Controllers
         public BooksController(CoreLibraryContext context)
         {
             _context = context;
+            this.db = context;
+
         }
 
        public  void InitializeViewBag()
@@ -96,15 +104,18 @@ namespace CoreLibraryProj.Controllers
            
 
         }
-       
-        // GET: Books
-        [HttpGet]
-        public async Task<IActionResult> Index()
-        {       
-            InitializeViewBag();
-            var coreLibraryContext = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric);
-            return View(await coreLibraryContext.ToListAsync());
-        }
+        
+         // GET: Books
+         [HttpGet]
+         public async Task<IActionResult> Index()
+         {       
+             InitializeViewBag();
+             var coreLibraryContext = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric);
+             return View(await coreLibraryContext.ToListAsync());
+         }
+
+
+
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -126,6 +137,33 @@ namespace CoreLibraryProj.Controllers
 
             return View(book);
         }
+
+        public VirtualFileResult GetVirtualFile(string book_name_parameter,string file_name_select)
+        {
+
+            
+                string file_path_db = "";
+
+                foreach (DocumentFullText text in db.DocumentFullTexts.ToList())
+                {
+                    if (text.DocumentId == int.Parse(book_name_parameter) && text.LanguageId == int.Parse(file_name_select))
+                    {
+                        file_path_db = text.FullDocumentText;
+                    }
+                }
+
+                var filepath = Path.Combine("~/lib/texts", file_path_db);
+            
+           
+            return File(filepath, "text/plain", file_path_db);
+        }
+
+
+
+
+
+
+
 
         // GET: Books/Create
         public IActionResult Create()
