@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<CoreLibraryProj.Book>
+@using CoreLibraryProj.Models
+
+
 
 @{
     ViewData["Title"] = "Index";
@@ -30,7 +33,7 @@
 
 
     <div class="search_header_item"> 
-        <img class="logo_group" src="/lib/layout-img/logo_group.png" />
+     <a href="@Url.Action("Index","Books")"><img class="logo_group" src="/lib/layout-img/logo_group.png" /> </a>
     
     <div> 
     <!--SEARCH FROM. Contains filters (text input & dropdown lists) -->

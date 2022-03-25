@@ -337,6 +337,13 @@ input:focus, textarea:focus, select:focus {
         border: 1px solid #95BADE;
 
     }
+    .details_button .arrow {
+        border-width: 0 3px 3px 0;
+    }
+        .details_button:hover .arrow {
+            
+            border: solid #95BADE;
+        }
 
 .error404 {
     width: 100%;

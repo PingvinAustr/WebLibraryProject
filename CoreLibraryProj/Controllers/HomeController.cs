@@ -1,6 +1,11 @@
 ﻿using CoreLibraryProj.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
+
+
 
 namespace CoreLibraryProj.Controllers
 {
@@ -8,11 +13,13 @@ namespace CoreLibraryProj.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
+        
         public IActionResult Index()
         {
             return View();
@@ -28,5 +35,13 @@ namespace CoreLibraryProj.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+       
+
+
+
+
+
     }
 }
