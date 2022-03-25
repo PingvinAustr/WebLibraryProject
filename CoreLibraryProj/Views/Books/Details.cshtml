@@ -1,6 +1,8 @@
 ﻿@model CoreLibraryProj.Book
+@using CoreLibraryProj.Models
 
 @{
+
     Layout = null;
     ViewData["Title"] = "Details";
 
@@ -19,26 +21,36 @@
 }
 
 <head>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
      <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
      <link rel="stylesheet" type="text/css" href="/css/BookDetailsList.css"> 
+     <link rel="stylesheet" type="text/css" href="/css/BookList.css"> 
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 
 <body> 
 
     <div class="container">
-        <img class="img-responsive" src='/lib/layout-img/logo_group.png' />
+        <a href="@Url.Action("Index","Books")"> <img class="img-responsive" src='/lib/layout-img/logo_group.png' /> </a>   
+    <div class="toggle_theme" style="justify-content:flex-end">
+        <img id="moon" src="/lib/layout-img/inactive_moon.svg" />
+        <div class="toggle_body" style="width:78px;" id="toggle_body">
+            <div class="toggle_ball" id="toggle_ball" onclick="ToggleTheme()"></div>
+        </div>
+        <img id="sun" src="/lib/layout-img/active_sun.svg" />
     </div>
+    </div>
+
 
     <div class="container">
         <h4>Детальна інформація щодо обраного твору:</h4>
         <hr />
          <div class="row" style="">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
             @{
               //Checking whether current book has an avatar. If false - show default image placeholder
               string image_address_html = "/lib/img/" + Model.Id + ".png";
@@ -49,7 +61,7 @@
              @Html.Raw("<img class='book_image' src="+image_address_html+">")
             </div>
 
-              <div class="col-sm-9">
+              <div class="col-sm-10">
                   <div class="row" ><h1> @Html.DisplayFor(model => model.BookName)</h1></div>
                   <div class="row" ><h4> @Html.DisplayFor(model => model.BookAuthor.AuthorName) |  @Html.DisplayFor(model => model.BookRubric.RubricName)</h4></div>
                   <div class="row book_desc">
@@ -60,15 +72,78 @@
               </div>
      
              </div>
-
-
-
-    
     </div>
+
+    <div class="container">
+     @{int i=0;}
+            @foreach(var item in current_doc_langs)
+            {
+                //Displaying & pre-loading texts in all languages and hide them. Creating classes and IDs for all divs to make them visible/hidden by user language choice
+                current_doc = current_doc_langs[i];
+                i++;
+                string class_name_lang = "lan" + current_doc.LanguageId;
+                <div class="@class_name_lang" id="@class_name_lang" style="display:none;">@current_doc.FullDocumentText</div>
+            }
+
+            
+        @{
+            int k = 0;
+        }
+
+        @foreach (Language lan in db.Languages.ToList())
+            {
+                foreach(DocumentFullText dft in db.DocumentFullTexts.ToList())
+                {
+                    if (lan.Id==dft.LanguageId && Model.Id==dft.DocumentId)
+                    {
+                       k++;
+                    }
+                }
+            }
+
+
+        <div style="display:flex; flex-direction:column; height:100px; width:20%; justify-content:center;"> 
+          <form method="post" asp-controller="Books" asp-action="GetVirtualFile">
+          <input name="book_name_parameter" value="@Model.Id" hidden/>
+         
+            @{
+                if (k != 0)
+                {
+                   
+                    @Html.Raw("<select style='height:30px; margin-top:5px; width:150px;' name='file_name_select' id='file_name_select'>");
+                    @Html.Raw("<option value='' selected hidden disabled>Оберіть мову твору</option>");
+                    
+                    foreach (Language lan in db.Languages.ToList())
+                    {
+                        foreach(DocumentFullText dft in db.DocumentFullTexts.ToList())
+                        {
+                            if (lan.Id==dft.LanguageId && Model.Id == dft.DocumentId)
+                            {
+                                @Html.Raw("<option value='"+lan.Id+"'>"+lan.LanguageName+"</option>")
+                            }
+                        }
+                    }
+                     @Html.Raw("<input class='download_button' type='submit' value='Завантажити'/>");
+                }
+            }
+            </form>
+          </select>
+          </div>
+          <a asp-action="Index" id="backtolist" class="details_button" style="padding-left:3px; margin:0; width:62px; height:62px; display:flex; align-items:center; justify-content:center;">
+          <i class="arrow left"></i>
+          </a>
+    </div>
+
 <div>
-    <a asp-action="Edit" style="display:none" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" style="display:none" asp-route-id="@Model?.Id">Edit</a> 
+    
 </div>
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/site.js"></script>
