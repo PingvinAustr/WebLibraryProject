@@ -9,13 +9,16 @@ using Microsoft.EntityFrameworkCore;
 using CoreLibraryProj;
 using Microsoft.EntityFrameworkCore;
 using CoreLibraryProj.Models;
-
-
+using System.IO;
+using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 
 
 namespace CoreLibraryProj.Controllers
 {
+    
     public class BooksController : Controller
     {
         private readonly CoreLibraryContext _context;
@@ -27,7 +30,9 @@ namespace CoreLibraryProj.Controllers
 
         }
 
-       public  void InitializeViewBag()
+
+        //Initializing some ViewBag vars for correct appearance of the page.
+       public void InitializeViewBag()
         {
             ViewBag.RubricsDropDown= new SelectList(db.Rubrics.ToList(), "Id", "RubricName");
             ViewBag.RubricsList=db.Rubrics.ToList();
@@ -104,17 +109,23 @@ namespace CoreLibraryProj.Controllers
            
 
         }
-        
-         // GET: Books
-         [HttpGet]
-         public async Task<IActionResult> Index()
-         {       
+
+        // GET: Books
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            if (User.Identity.IsAuthenticated == false) {return Redirect("~/Home");  }
              InitializeViewBag();
              var coreLibraryContext = _context.Books.Include(b => b.BookAuthor).Include(b => b.BookRubric);
              return View(await coreLibraryContext.ToListAsync());
          }
 
-
+        public ActionResult Logout()
+        {
+            Response.Cookies.Delete("ai_user");
+            Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            return Redirect("~/Home");
+        }
 
 
         // GET: Books/Details/5
@@ -135,13 +146,14 @@ namespace CoreLibraryProj.Controllers
                 return NotFound();
             }
 
+            if (User.IsInRole("admin")) ViewBag.BookDetailsEditHtml = "<a asp-action='Edit' asp-route-id='@Model?.Id'>Edit</a>";
             return View(book);
         }
 
-        public VirtualFileResult GetVirtualFile(string book_name_parameter,string file_name_select)
-        {
 
-            
+        //Function to download .DOC and .PDF files from single book page
+        public VirtualFileResult GetVirtualFile(string book_name_parameter,string file_name_select)
+        {        
                 string file_path_db = "";
 
                 foreach (DocumentFullText text in db.DocumentFullTexts.ToList())
@@ -153,11 +165,12 @@ namespace CoreLibraryProj.Controllers
                 }
 
                 var filepath = Path.Combine("~/lib/texts", file_path_db);
-            
-           
-            return File(filepath, "text/plain", file_path_db);
+
+        
+            return  File(filepath, "text/plain", file_path_db);
         }
 
+ 
 
 
 
@@ -180,12 +193,17 @@ namespace CoreLibraryProj.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,BookName,BookDescription,BookRubricId,BookAuthorId")] Book book)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if ((ModelState.IsValid) && (book.BookDescription.Length > 100))
+                {
+                    _context.Add(book);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            catch { }
+            ViewBag.error = "Опис книги занадто короткий або прожній!";
             ViewData["BookAuthorId"] = new SelectList(_context.Authors, "Id", "Id", book.BookAuthorId);
             ViewData["BookRubricId"] = new SelectList(_context.Rubrics, "Id", "Id", book.BookRubricId);
             return View(book);

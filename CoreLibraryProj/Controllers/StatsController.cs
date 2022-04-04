@@ -8,6 +8,7 @@ namespace CoreLibraryProj.Controllers
         // GET: StatsController
         public ActionResult Index()
         {
+            if (User.Identity.IsAuthenticated == false) { return Redirect("~/Home"); }
             return View();
         }
 

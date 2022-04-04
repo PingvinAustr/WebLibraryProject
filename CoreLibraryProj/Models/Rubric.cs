@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CoreLibraryProj
 {
@@ -11,6 +12,7 @@ namespace CoreLibraryProj
         }
 
         public int Id { get; set; }
+        [Display(Name ="Назва рубрики")]
         public string? RubricName { get; set; }
 
         public virtual ICollection<Book> Books { get; set; }

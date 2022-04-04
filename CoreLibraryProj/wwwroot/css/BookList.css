@@ -1,4 +1,72 @@
-﻿body {
+﻿
+@media(max-width:1200px){
+    h2{
+        margin:15px 0 0 0  !important;
+    }
+}
+@media(max-width:1000px){
+    .PieChartRow{
+        flex-direction:column !important;
+    }
+    h2{
+        font-size:24px !important;
+        line-height:normal !important;
+    }
+}
+@media(max-width:400px){
+    .PieChartRow{
+        padding-left:50%;
+    }
+}
+
+.edit_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 35px;
+    border-radius: 20px;
+    background: #FFA500;
+    text-decoration: none;
+    outline: none;
+    color: white;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 14px;
+    transition:0.5s;
+    border:1px solid white;
+}
+
+    .edit_button:hover {
+        background: white;
+        border:1px solid #FFA500;
+        color: #FFA500;
+    }
+#delete_button {
+    background: #DC143C;
+    margin-left:10px;
+}
+
+    #delete_button:hover {
+        background: white;
+        border: 1px solid #DC143C;
+        color: #DC143C;
+    }
+
+#editor_block {
+    display:flex;
+    flex-direction:column;
+   align-items:center;
+    margin: 0 auto;
+    height: 15%;
+    width: 45%;
+    border: 3px solid #95BADE !important;
+    border-radius: 30px;
+}
+
+
+body {
     margin:0;
     padding:0;
       overflow-y:scroll;
@@ -272,6 +340,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 
+
 .book_list_body{
     margin-top:20px;
     width:845px;
@@ -291,7 +360,38 @@ input:focus, textarea:focus, select:focus {
     margin-top:20px;
 }
 
+.logout_img{
+    width:20px;
+    height:20px;
+}
+
+.logout_group {
+    position:absolute;
+    right:15px;
+    top:25px;
+
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    outline: none;
+    text-decoration: none;
+    color:black;
+}
+#logout_text {   
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 106%;
+}
+
+
 .book_desc {
+    word-wrap:break-word;
+    max-width:695px;
     margin-top:10px;
     font-family: 'Montserrat';
     font-style: normal;
@@ -300,13 +400,14 @@ input:focus, textarea:focus, select:focus {
     line-height: 106%;
     /* or 15px */
 
-    display: flex;
+   /*display: flex;*/
     align-items: top;
     color: #000000;
 }
 
 .single_item_desc{
     padding-left:20px;
+    max-width:695px;
 }
 
 .details_button {
@@ -328,7 +429,9 @@ input:focus, textarea:focus, select:focus {
     justify-content: center;
     color: #FFFFFF;
     margin-left:75%;
+  
     transition:0.5s;
+    border:1px solid white;
 }
 
     .details_button:hover {

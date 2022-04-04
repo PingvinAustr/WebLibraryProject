@@ -1,6 +1,7 @@
 ﻿@model CoreLibraryProj.Book
 @using CoreLibraryProj.Models
-
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @{
 
     Layout = null;
@@ -134,8 +135,16 @@
           </a>
     </div>
 
-<div>
-    <a asp-action="Edit" style="display:none" asp-route-id="@Model?.Id">Edit</a> 
+ @{
+            string displayornot="display:flex; align-items:center; justify-content:center; margin-top:20px;";
+            if (!User.IsInRole("admin") && !User.IsInRole("editor")) { displayornot = "display:none"; };
+            
+        }
+<div id="editor_block" style="@displayornot">
+<h2>Цей блок створено для адміністраторів та модераторів</h2>
+<h2>Натисніть кнопку нижче щоб редагувати дані про цю книгу</h2>
+       
+    <a asp-action='Edit' class="download_button" style="@displayornot" asp-route-id='@Model?.Id'>Змінити</a>
     
 </div>
 

@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreLibraryProj;
-
+using Microsoft.AspNetCore.Authorization;
 namespace CoreLibraryProj.Controllers
 {
+    [Authorize(Roles ="admin,editor")]
     public class RubricsController : Controller
     {
         private readonly CoreLibraryContext _context;
@@ -22,6 +23,7 @@ namespace CoreLibraryProj.Controllers
         // GET: Rubrics
         public async Task<IActionResult> Index()
         {
+            if (User.Identity.IsAuthenticated == false) { return Redirect("~/Home"); }
             return View(await _context.Rubrics.ToListAsync());
         }
 

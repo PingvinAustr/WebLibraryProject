@@ -1,6 +1,33 @@
-﻿@using CoreLibraryProj.Models
-@model IndexViewModel
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "Логінка";
 }
- Home page
+
+<h1>@{
+        switch (User.Identity.IsAuthenticated)
+        {
+            case true:
+                {
+                    @Html.Raw("You are logged in");                  
+                    break;}
+            case false:
+                {
+                    @Html.Raw("You are not logged in");
+                    break;
+                }
+
+        }    
+    }</h1>
+
+@if(User.Identity.IsAuthenticated)
+{
+<p>@User.Identity.Name</p>
+
+<form method="post" asp-controller="Account" asp-action="Logout">
+    <input type="submit" value="Вихід" />
+</form>
+}
+else
+{
+<a asp-controller="Account" asp-action="Login">Вхід</a>
+<a asp-controller="Account" asp-action="Register">Реєстація</a>
+}

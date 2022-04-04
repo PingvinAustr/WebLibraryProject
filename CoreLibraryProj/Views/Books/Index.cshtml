@@ -19,12 +19,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 
+@{
+                                string displayornot = "";
+
+                                string margins = "margin-bottom:19px;";
+                                if (!User.IsInRole("admin") && !User.IsInRole("editor")) { displayornot = "display:none";margins = ""; }
+                            }
+
+
 
 <body>
-<p><a style="display:none;" asp-action="Create">Create New</a></p>
 
 
  @{CoreLibraryContext db = new CoreLibraryContext();}
+ <a asp-controller="Books" asp-action="Logout" class="logout_group"> 
+<p id="logout_text">Вийти</p>
+<img class="logout_img" src="/lib/layout-img/logout.png" />
+ </a>
 
 <div class="search_header">
 
@@ -89,25 +100,40 @@
  </div>
  </div>
 
- @{/*Toggle element to choose day/night display theme*/}
- <div class="search_header_item">
-    <div class="toggle_theme">
-        <img id="moon" src="/lib/layout-img/inactive_moon.svg" />
-        <div class="toggle_body" id="toggle_body">
-            <div class="toggle_ball" id="toggle_ball" onclick="ToggleTheme()"></div>
+        @{
+            /*Toggle element to choose day/night display theme*/
+        }
+        <div class="search_header_item">
+            <div class="toggle_theme">
+                <img id="moon" src="/lib/layout-img/inactive_moon.svg" />
+                <div class="toggle_body" id="toggle_body">
+                    <div class="toggle_ball" id="toggle_ball" onclick="ToggleTheme()"></div>
+                </div>
+                <img id="sun" src="/lib/layout-img/active_sun.svg" />
+            </div>
+
         </div>
-        <img id="sun" src="/lib/layout-img/active_sun.svg" />
     </div>
 
- </div>
- </div>
 
 
+    @{
+        /*Main page body with search results*/
+    }
+    <div class="results_body"> 
 
- @{/*Main page body with search results*/}
-<div class="results_body"> 
-<div class="results_body_header">Лист доступної літератури. </div>
+        <div class="results_body_header">Лист доступної літератури. </div>
 
+        @{
+            string displayornotcreate = "";
+            if (displayornot == "")
+            {
+                displayornotcreate = "align-self:flex-start;margin-left:21%;";
+            }
+            else { displayornotcreate = "display:none;"; }
+        }
+
+<a style="@displayornotcreate" class="edit_button" id="edit_button" asp-action="Create">Додати книгу</a>
 
 @{/*If there is nothing found according to user request - showing 404 message*/
     if (Model.Count()==0)
@@ -141,11 +167,18 @@
             <div style="margin:0; height:65%;" class="book_desc"> @Html.DisplayFor(modelItem => item.BookDescription) </div>
            
              
-              <a style="display:none" asp-action="Edit" asp-route-id="@item.Id">Edit</a>               
+
+                            
+
+              <div style="display:flex; flex-direction:row; margin-top:-20px;">
+              <a style="@displayornot" asp-action="Edit" asp-route-id="@item.Id" class="edit_button" id="edit_button">Редагувати</a>      
+              <a style="@displayornot" asp-action="Delete" asp-route-id="@item.Id" class="edit_button" id="delete_button">Видалити</a>
+              </div>
+
               <div style="height:10%; display:flex; align-items:flex-end; justify-content:flex-end;">
-              <a class="details_button" asp-action="Details" asp-route-id="@item.Id">Детальніше</a> 
+              <a class="details_button" style="@margins" asp-action="Details" asp-route-id="@item.Id">Детальніше</a> 
               </div>             
-              <a style="display:none" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+             
               </div>
               </div>
         }
@@ -159,5 +192,10 @@
 
 
 </div>
+
+
+
+
+
 <script src="/js/site.js"></script>
  </body>

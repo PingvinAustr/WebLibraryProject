@@ -62,7 +62,7 @@ namespace CoreLibraryProj.Controllers
 
             switch (language)
             {
-                case "Російська": { country = "RU"; break; }
+                case "Російська": { country = "Russia"; break; }
                 case "Українська": { country = "Ukraine"; break; }
                 case "Німецька": { country = "Germany"; break; }
                 case "Англійська": { country = "United States"; break; }

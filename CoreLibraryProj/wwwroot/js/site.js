@@ -33,7 +33,7 @@ function ToggleTheme() {
         current_theme = 'night';
 
 
-        var matches = document.querySelectorAll(".search_header, .results_body, .select-css, .search_bar, .results_body_header, h1, .book_desc, body");
+        var matches = document.querySelectorAll(".search_header, .results_body, .select-css, .search_bar, .results_body_header, h1, .book_desc, body, .logout_group");
         matches.forEach(item => item.classList.add("night"));     
 
 
@@ -46,7 +46,7 @@ function ToggleTheme() {
         document.getElementById('moon').src = "/lib/layout-img/inactive_moon.svg";
         document.getElementById('sun').src = "/lib/layout-img/active_sun.svg";
 
-        var matches = document.querySelectorAll(".search_header, .results_body, .select-css, .search_bar, .results_body_header, h1, .book_desc, body");
+        var matches = document.querySelectorAll(".search_header, .results_body, .select-css, .search_bar, .results_body_header, h1, .book_desc, body, .logout_group");
         matches.forEach(item => item.classList.remove("night"));
 
 
