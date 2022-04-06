@@ -60,3 +60,27 @@ function ToggleTheme() {
 
 
 }
+
+let small_first = true;
+//Pretty movement function login page
+function LoginPageToggleBlocks() {
+
+    
+
+    if (small_first==true) {
+        document.getElementById("small_child").style.left = "66.666667%";
+        document.getElementById("small_child").style.borderRadius = "0 40px 40px 0";
+        document.getElementById("big_child").style.left = "-33.333334%";
+        document.getElementById("big_child").style.borderRadius = "40px 0 0 40px";
+        small_first = false;
+       
+    }
+    else {
+        document.getElementById("small_child").style.left = "0px";
+        document.getElementById("small_child").style.borderRadius = "40px 0 0 40px";
+        document.getElementById("big_child").style.left = "0px";
+        document.getElementById("big_child").style.borderRadius = "0 40px 40px 0";
+        small_first = true;
+        console.log(small_first)
+    }
+}
