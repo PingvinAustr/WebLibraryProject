@@ -4,7 +4,9 @@
     ViewData["Title"] = "Перелік рубрик";
 }
 
-<h1>Рубрики</h1>
+
+@await Html.PartialAsync("HeaderItems")
+<h1 style="">Рубрики</h1>
 
 <p>
     <a asp-action="Create">Додати нову</a>
