@@ -63,8 +63,12 @@ namespace CoreLibraryProj.Controllers
         {
             //if (ModelState.IsValid)
             //{
+            if (model.Email != null)
+            {
+
                 var result =
                     await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+
                 if (result.Succeeded)
                 {
                     // перевіряємо, чи належить URL додатку
@@ -81,6 +85,7 @@ namespace CoreLibraryProj.Controllers
                 {
                     ModelState.AddModelError("", "Неправильний логін чи (та) пароль");
                 }
+            }
             //}
             return View(model);
         }
