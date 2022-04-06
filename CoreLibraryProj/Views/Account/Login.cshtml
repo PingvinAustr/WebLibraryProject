@@ -1,24 +1,59 @@
 ﻿@model CoreLibraryProj.ViewModel.LoginViewModel
+@{
+    Layout = null;
+}
 
-<h2>Вхід в БІБЛІОТЕКУ</h2>
-<form method="post" asp-controller="Account" asp-action="Login"
-      asp-route-returnUrl="@Model.ReturnUrl">
+
+<head>
+<title>Сторінка авторизації</title>
+<link rel="stylesheet" type="text/css" href="/css/LoginPage.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body> 
+<div class="bg_circle"></div>
+<div class="bg_triangle"></div>
+
+<div class="main_block">
+    <div id="small_child" class="small_child">
+        <h2>Вітаємо!</h2>
+        <p style="margin-top:-5px;">Щоб скористатися бібліотекою -
+           пройдіть процедуру авторизації</p>
+        <div class="sign_in_button" onclick="LoginPageToggleBlocks()">Sign in</div>
+    </div>
+    <div id="big_child" class="big_child">
+
+        <h1>LOG IN</h1>
+        <p style="color:black; margin-top:-15px;">Введіть свої особисті дані для авторизації</p>
+
+      <form method="post" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
+       
+        <input asp-for="Email" placeholder="Email" autocomplete="off"/>
         <span asp-validation-for="Email"></span>
     </div>
     <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
+        <input asp-for="Password" placeholder="Пароль" style="margin-top:30px" autocomplete="off" />
         <span asp-validation-for="Password"></span>
     </div>
-    <div>
-        <label asp-for="RememberMe"></label><br />
-        <input asp-for="RememberMe" />
+    <div style="padding-top:15px; display:flex; flex-direction:column;">
+        <label asp-for="RememberMe" class=""></label><br />
+        <input asp-for="RememberMe" class="remember_me" style="margin-top:-10px;" />
     </div>
-    <div>
-        <input type="submit" value="Увійти" />
+    <div style="display:flex; align-items:center; justify-content:center;">
+        <input type="submit" id="login_button" value="Увійти" />
     </div>
 </form>
+
+    <p style="color:black; font-size:16px;">Не зареєстровані? <a asp-controller="Account" asp-action="Register" id="register_tag">Зареєструватись</a></p>
+    </div>
+</div>
+
+
+<script src="/js/site.js"></script>
+</body>
