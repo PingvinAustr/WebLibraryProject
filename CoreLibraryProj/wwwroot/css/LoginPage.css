@@ -1,0 +1,288 @@
+﻿
+@media (max-width:1800px){
+    .bg_circle {
+        display: none;
+    }
+}
+
+
+@media(max-width:1000px){
+    .small_child{
+        display:none !important;
+    }
+    .big_child {
+        border-radius: 40px 40px 40px 40px !important;
+        width:100% !important;
+    }
+
+    #register_h1{
+        font-size:36px !important;
+        width:80%;
+        text-align:center;
+    }
+}
+
+@media(max-width:550px){
+    .bg_triangle{
+        display:none;
+    }
+    #main_block_register{
+        width:100% !important;
+    }
+}
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden !important;
+}
+
+html{
+    overflow:hidden !important;
+}
+
+h1 {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 45px;
+    color: #36ada9;
+}
+
+
+h2 {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size:30px;
+    color:white;
+}
+
+p {
+    text-align:center;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    color:white;
+}
+
+label {
+    text-align: center;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    color: black;
+}
+
+input {
+    font-size: 16px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: normal;
+    padding-left: 15px;
+    height: 55px;
+    width: 260px;
+    border: 0;
+    outline: none;
+    background: #ecf1f1;
+}
+
+    input::placeholder {
+        font-size: 16px;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: normal;
+    }
+
+li {
+    font-size: 13px;
+    color: red;
+    font-family: 'Montserrat';
+    font-style: normal;
+    margin-left: -25px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+span {
+    font-size: 13px;
+    color: red;
+    font-family: 'Montserrat';
+    font-style: normal;
+}
+
+
+#login_button {
+    margin-top:15px;
+    transition:0.5s;
+    cursor:pointer;
+    width: 200px;
+    height: 45px;
+    border-radius: 20px;
+    border: 1px solid white;
+    background: #36ada9;
+    color:white;
+}
+
+    #login_button:hover {
+        background: white;
+        color: #36ada9;
+        border: 1px solid #36ada9;
+    }
+#register_tag {
+    text-decoration: none;
+    color: #36ada9;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+    #register_tag:hover {
+        color: blue;
+    }
+
+
+.remember_me{
+    height: 20px;
+}
+.remember_me:before{
+    content:"Так";
+    display:block;
+    margin-left:85px;
+}
+
+.main_block{
+    width:80%;
+    height:75%;
+  
+    border-radius:40px;
+    margin:0 auto;
+
+    display:flex;
+    flex-direction:row;
+}
+
+.small_child {
+    overflow: hidden !important;
+    z-index: 2;
+    transition: 1s;
+    position: relative;
+    left: 0px;
+    width: 33.3334%;
+    height: 100%;
+    border-radius: 40px 0 0 40px;
+    background: #36ada9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.big_child {
+    overflow: hidden !important;
+    background: white;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 1s;
+    position: relative;
+    left: 0px;
+    width: 66.6666%;
+    height: 100%;
+    border-radius: 0 40px 40px 0;
+}
+
+.sign_in_button {
+    margin-top:5px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    
+    width: 160px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid white;
+
+    color:white;
+    background-color:transparent;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+
+    cursor:pointer;
+    transition:0.5s;
+}
+
+    .sign_in_button:hover {
+        background: white;
+        color: #36ada9
+    }
+
+.bg_circle {
+    z-index: 0;
+    position: absolute;
+    top: -20%;
+    left: 80%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: #f8c93d;
+    animation: bg_circle 6s infinite alternate;
+    animation-timing-function: linear;
+}
+
+
+
+
+.bg_triangle {
+    transform: rotateX(160deg);
+    position: absolute;
+    top: 70%;
+    left: -5%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 500px 0 0 500px;
+    border-color: transparent transparent transparent #e45e6a;
+    animation: bg_triangle 6s infinite alternate;
+    animation-timing-function: linear;
+}
+
+.input_item{
+    margin-top:20px;
+}
+
+
+@keyframes bg_triangle {
+    from {
+        left: -5%;
+        top: 70%;
+    }
+
+    to {
+        left:0%;
+        top: 60%;
+    }
+}
+
+@keyframes bg_circle {
+    from {
+        left: 80%;
+        top: -20%;
+    }
+
+    to {
+        left: 87%;
+        top: -15%;
+    }
+}
