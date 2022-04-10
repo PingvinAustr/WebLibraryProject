@@ -1,17 +1,91 @@
 ﻿@{
-    ViewData["Title"] = "Логінка";
+    Layout = null;
+    ViewData["Title"] = "Home page";
 }
 
-<h1>@{
+
+
+<head>
+    <title>Home page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="~/css/HomePage.css" />
+
+  <link rel="stylesheet" type="text/css" href="/slick-1.8.1/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="/slick-1.8.1/slick/slick-theme.css"/>
+
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+@{
+    CoreLibraryContext db = new CoreLibraryContext();
+}
+
+
+<html>
+    <body>
+        <div class="header_block">
+            <h1>Система "Онлайн бібліотека"</h1>
+            <h2>Система створена для перегляду та завантаження документів та творів</h2>
+            <h2>Доступні твори:</h2>
+        </div>
+  
+        <div class="slider_block">
+            <div class="main_slider">
+            @{
+                foreach (Book book in db.Books.ToList())
+                {
+                    <div class="slider_item_body">
+                        <div class="slider_item_img"> 
+                             @{/*Checking whether current book has an avatar. If false - show default image placeholder*/}
+                            @{string image_address_html = "/lib/img/" + book.Id + ".png";
+                            string image_address_tocheckexists = Directory.GetCurrentDirectory().ToString()+"\\wwwroot\\lib\\img\\"+book.Id+".png";
+                            var exist = File.Exists(image_address_tocheckexists);
+                            if (!exist) image_address_html = "/lib/img/notfound.png";}                            
+                             @Html.Raw("<img class='book_image' src="+@image_address_html+">")    
+                        </div>
+                        <div class="slider_item_text">
+                        
+                        <div id="def1">@book.BookName</div>
+                       
+                            @{
+                                string auth_name="",rub_name="";
+                                var selected=db.Authors.ToList().Where(x=>x.Id==book.BookAuthorId).ToList();
+                                var selected2 = db.Rubrics.ToList().Where(x => x.Id == book.BookRubricId).ToList();
+                                foreach (var Author in selected)
+                                {
+                                    auth_name = Author.AuthorName;
+                                }
+                                foreach (var rub in selected2)
+                                {
+                                    rub_name = rub.RubricName;
+                                }
+                                <div id="def2">@auth_name | @rub_name</div>
+
+                            }
+                        <div class="book_desc"> @book.BookDescription </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        </div>
+
+
+ <div class="login_block"> 
+        <h1>@{
         switch (User.Identity.IsAuthenticated)
         {
             case true:
                 {
-                    @Html.Raw("You are logged in");                  
+                    @Html.Raw("<h1>Ви авторизовані</h1>");                  
                     break;}
             case false:
                 {
-                    @Html.Raw("You are not logged in");
+                    @Html.Raw("<h1>Ви не авторизовані</h1>");
                     break;
                 }
 
@@ -20,7 +94,7 @@
 
 @if(User.Identity.IsAuthenticated)
 {
-<p>@User.Identity.Name</p>
+<p style="margin-top:-15px;"> Ваш username -  <span>@User.Identity.Name</span></p>
 
 <form method="post" asp-controller="Account" asp-action="Logout">
     <input type="submit" value="Вихід" />
@@ -28,6 +102,34 @@
 }
 else
 {
+<div style="display:flex; flex-direction:row; gap:20px;"> 
 <a asp-controller="Account" asp-action="Login">Вхід</a>
 <a asp-controller="Account" asp-action="Register">Реєстація</a>
+</div>
 }
+
+</div>
+
+
+<script type="text/javascript" src="~/jquery.min.js"></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/slick-1.8.1/slick/slick.min.js"></script>
+
+
+<script>  $('.main_slider').slick({
+  dots: false,
+  autoplay:false,
+  autoplaySpeed:10000,
+  speed: 500,
+  infinite:true,
+  responsive:[{
+      breakpoint:900,
+      settings:{
+          dots:true,
+          arrows:false
+      }
+  },
+  ]
+});</script>
+    </body>
+</html>
