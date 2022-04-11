@@ -1,0 +1,54 @@
+﻿
+<header>
+   <link rel="stylesheet" href="/css/Sidebar.css"/>
+</header>
+
+<body>
+    <nav id="sidebar" class="sidebar_visible">
+        <span style="border-bottom:1px solid black; height:50px; display:flex; flex-direction:row; justify-content:space-around;">Мої сторінки <span class="cross_span" onclick="toggle_sidebar()">+</span> </span>
+        @{
+            Dictionary<string, string> displayornot = new Dictionary<string, string>()
+            {
+                ["Books_Index"] = "display:block",
+                ["Rubrics_Index"]="display:block",
+                ["Roles_Index"]="display:block",
+                ["Roles_UserList"]="display:block",
+                ["Stats_Index"]="display:block",
+                ["Authors_Index"]="display:block",
+                ["Languages_Index"]="display:block"
+            
+            };
+
+
+            if (User.IsInRole("user") && !User.IsInRole("admin") && !User.IsInRole("editor"))
+            {
+                displayornot["Roles_Index"] = "display:none";
+                displayornot["Rubrics_Index"] = "display:none";
+                displayornot["Roles_UserList"] = "display:none";
+                displayornot["Authors_Index"] = "display:none";
+                displayornot["Languages_Index"] = "display:none";
+
+                
+            }
+            else if (User.IsInRole("editor") && !User.IsInRole("admin"))
+            {
+                 displayornot["Roles_Index"] = "display:none";
+                 displayornot["Roles_UserList"] = "display:none";
+            }
+
+        }
+        
+        <a asp-controller="Books" asp-action="Index" class="sidebar_item">Книги</a>
+        <a asp-controller="Rubrics" asp-action="Index" style="@displayornot["Rubrics_Index"]" class="sidebar_item">Рубрики</a>
+        <a asp-controller="Roles" asp-action="Index" style="@displayornot["Roles_Index"]" class="sidebar_item">Ролі</a>
+        <a asp-controller="Roles" asp-action="UserList" style="@displayornot["Roles_UserList"]" class="sidebar_item">Користувачі</a>
+        <a asp-controller="Authors" asp-action="Index" style="@displayornot["Authors_Index"]" class="sidebar_item">Автори</a>
+        <a asp-controller="Languages" asp-action="Index" style="@displayornot["Languages_Index"]" class="sidebar_item">Мови</a>
+        <a asp-controller="Stats" asp-action="Index" class="sidebar_item">Статистика</a>
+
+      
+</nav>
+<div class="toggle_sidebar" onclick="toggle_sidebar()"></div>
+
+<script src="/js/sidebar.js"></script>
+</body>
