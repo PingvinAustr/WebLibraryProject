@@ -34,11 +34,14 @@
 </head>
 
 <body> 
+
     <a asp-controller="Books" asp-action="Logout" class="logout_group"> 
 <p id="logout_text" style="position:relative; top:8px;">Вийти</p>
 <img class="logout_img" src="/lib/layout-img/logout.png" />
  </a>
     <div class="container">
+        @await Html.PartialAsync("Sidebar")
+
         <a href="@Url.Action("Index","Books")"> <img class="img-responsive" src='/lib/layout-img/logo_group.png' /> </a>   
     <div class="toggle_theme" style="justify-content:flex-end">
         <img id="moon" src="/lib/layout-img/inactive_moon.svg" />
