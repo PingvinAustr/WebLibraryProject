@@ -1,4 +1,13 @@
 ﻿@model IEnumerable<CoreLibraryProj.User>
+@{
+    ViewData["Title"] = "Перелік користувачів";
+    }
+<head>
+    <title>Перелік користувачів</title>
+</head>
+
+@await Html.PartialAsync("Sidebar")
+@await Html.PartialAsync("HeaderItems")
 
 <h2>Список користувачів</h2>
 <table class="table">
