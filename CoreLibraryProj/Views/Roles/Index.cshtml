@@ -1,5 +1,16 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
+    @{
+    ViewData["Title"] = "Перелік ролей";
+    }
+<head>
+    <title>Перелік ролей</title>
+</head>
+
+@await Html.PartialAsync("Sidebar")
+@await Html.PartialAsync("HeaderItems")
+
+
 <h2>Список ролей</h2>
 <table class="table">
     @foreach (var role in Model)
