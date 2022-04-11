@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.ComponentModel.DataAnnotations;
 namespace CoreLibraryProj
 {
     public partial class Language
@@ -11,6 +11,7 @@ namespace CoreLibraryProj
         }
 
         public int Id { get; set; }
+        [Display(Name ="Мова")]
         public string? LanguageName { get; set; }
 
         public virtual ICollection<DocumentFullText> DocumentFullTexts { get; set; }
