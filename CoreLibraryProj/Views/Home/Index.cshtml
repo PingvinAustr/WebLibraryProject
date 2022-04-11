@@ -95,9 +95,9 @@
 @if(User.Identity.IsAuthenticated)
 {
 <p style="margin-top:-15px;"> Ваш username -  <span>@User.Identity.Name</span></p>
-
+<a style="font-size:20px; margin-top:0;" asp-controller="Books" asp-action="Index">Перейти до переліку творів</a>
 <form method="post" asp-controller="Account" asp-action="Logout">
-    <input type="submit" value="Вихід" />
+    <input style="margin-top:10px" type="submit" value="Вихід" />
 </form>
 }
 else
