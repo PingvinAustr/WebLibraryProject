@@ -1,5 +1,5 @@
 ﻿@{
-   
+    ViewData["Title"] = "Сторінка статистики";
 }
 <style>
     h2{
@@ -19,6 +19,7 @@
     </head>
 
     <body>
+        @await Html.PartialAsync("Sidebar")
     @section scripts{
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
