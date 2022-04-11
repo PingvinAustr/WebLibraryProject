@@ -1,0 +1,34 @@
+﻿@model CoreLibraryProj.Language
+
+@{
+    ViewData["Title"] = "Редагування";
+}
+
+@await Html.PartialAsync("Sidebar")
+@await Html.PartialAsync("HeaderItems")
+
+<h1>Редагування</h1>
+
+<h4>Мова</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="LanguageName" class="control-label"></label>
+                <input asp-for="LanguageName" class="form-control" />
+                <span asp-validation-for="LanguageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Повернутись до переліку</a>
+</div>
+
