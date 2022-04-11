@@ -1,5 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model CoreLibraryProj.ViewModel.ChangeRoleViewModel
+<head>
+    <title>Ролі користувача</title>
+</head>
+
+@{
+    ViewData["Title"] = "Права доступу";
+    }
+
+@await Html.PartialAsync("Sidebar")
+@await Html.PartialAsync("HeaderItems")
 
 <h2>Зміна ролей для користувача @Model.UserEmail</h2>
 
