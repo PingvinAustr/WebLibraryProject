@@ -1,9 +1,11 @@
 ﻿@model CoreLibraryProj.Book
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit ";
     }
 
+@await Html.PartialAsync("Sidebar")
+@await Html.PartialAsync("HeaderItems")
 <h1>Edit</h1>
 
 <h4>Book</h4>
