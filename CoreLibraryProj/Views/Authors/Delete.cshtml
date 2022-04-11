@@ -1,0 +1,35 @@
+﻿@model CoreLibraryProj.Author
+
+@{
+    ViewData["Title"] = "Видалення інформації щодо автора";
+}
+@await Html.PartialAsync("Sidebar")
+@await Html.PartialAsync("HeaderItems")
+
+<h1>Видалення</h1>
+
+<h3>Ви впевнені, що бажаєте видалити цього автора?</h3>
+<div>
+    <h4>Автор</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AuthorName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AuthorName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AuthorBirthDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AuthorBirthDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Повернутись до переліку</a>
+    </form>
+</div>
