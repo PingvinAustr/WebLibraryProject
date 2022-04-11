@@ -4,7 +4,7 @@
 
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Перелік книг";
     Layout = null;
 }
 
@@ -13,6 +13,7 @@
     
 <title>Бібліотека</title>
 <link rel="stylesheet" type="text/css" href="/css/BookList.css">
+<link rel="stylesheet" type="text/css" href="/css/SidebarBookIndex.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,18 +27,19 @@ if (!User.IsInRole("admin") && !User.IsInRole("editor")) { displayornot = "displ
 }
 
 
-
 <body>
  @{CoreLibraryContext db = new CoreLibraryContext();}
+
  <a asp-controller="Books" asp-action="Logout" class="logout_group"> 
 <p id="logout_text">Вийти</p>
 <img class="logout_img" src="/lib/layout-img/logout.png" />
  </a>
 
+
 <div class="search_header">
 
 
-    <div class="search_header_item" >burger</div>
+    <div class="search_header_item" ></div>
 
 
     <div class="search_header_item"> 
@@ -118,7 +120,7 @@ if (!User.IsInRole("admin") && !User.IsInRole("editor")) { displayornot = "displ
         /*Main page body with search results*/
     }
     <div class="results_body"> 
-
+         @await Html.PartialAsync("Sidebar")
         <div class="results_body_header">Лист доступної літератури. </div>
 
         @{
