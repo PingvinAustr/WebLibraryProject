@@ -1,0 +1,8 @@
+﻿.toggle_sidebar{
+    height:17px !important;
+    margin-top:0 !important;
+    z-index:0 !important;
+    position:absolute !important;
+    top:50px !important;
+    left:10% !important;
+}
