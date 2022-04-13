@@ -10,3 +10,4 @@ Has search functionality with ability to read document text in different languag
  - Bootstrap
  - JQuery
  - Google Charts API
+ - Slick slider
