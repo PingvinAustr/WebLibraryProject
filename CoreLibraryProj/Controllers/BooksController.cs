@@ -130,7 +130,8 @@ namespace CoreLibraryProj.Controllers
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
-        {
+        {          
+
             if (id == null)
             {
                 return NotFound();
@@ -181,6 +182,10 @@ namespace CoreLibraryProj.Controllers
         // GET: Books/Create
         public IActionResult Create()
         {
+            if (User.IsInRole("user") && !User.IsInRole("admin") && !User.IsInRole("editor"))
+            {
+                return Redirect("~/Books/Index");
+            }
             ViewData["BookAuthorId"] = new SelectList(_context.Authors, "Id", "Id");
             ViewData["BookRubricId"] = new SelectList(_context.Rubrics, "Id", "Id");
             return View();
@@ -212,6 +217,11 @@ namespace CoreLibraryProj.Controllers
         // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (User.IsInRole("user") && !User.IsInRole("admin") && !User.IsInRole("editor"))
+            {
+                return Redirect("~/Books/Index");
+            }
+
             if (id == null)
             {
                 return NotFound();
@@ -267,6 +277,12 @@ namespace CoreLibraryProj.Controllers
         // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (User.IsInRole("user") && !User.IsInRole("admin") && !User.IsInRole("editor"))
+            {
+                return Redirect("~/Books/Index");
+            }
+
+
             if (id == null)
             {
                 return NotFound();
