@@ -15,6 +15,7 @@ Requires 2 DBs to function - main project db (contains info regarding books, rol
  - JQuery
  - Google Charts API
  - Slick slider
+ - ASP.NET Identity
 
 ## Roles
  - Admin
